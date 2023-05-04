@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Haleel E-learning</title>
+    <link rel="icon" type="image/x-icon" href="/hor.jpg">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/6510466b6c.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body  onload="initClock()">
+    <navbar>
+        <div class="logo">E-learning Haleel</div>
+    </navbar>
+    
+
+        <div class="main">
+            <div class="create-join" >
+                <div class="text"><div class="head">Create Video Meetings in one-click for free everyone <span class="sig"> No sign ups required </span>.</div>
+              <!-- <div class="subtext">No sign ups required.</div> -->
+               <div class="sub">We re-engineered the service that we built for secure E-learning Meeting, Haleel meet, to make it free and available for all .</div> 
+                </div>
+                <button id="createroom"  class="createroom-butt unselectable"><span class="material-symbols-outlined">
+                  video_call
+                  </span>Create Room</button><br>
+                <input type="text" name="room" spellcheck="false"  placeholder="Enter a Code or link " id="roomcode" class="roomcode">
+                
+                
+                <div class="icons">
+
+                  <span class="material-symbols-outlined">
+                    keyboard
+                    </span>
+                </div>
+                    
+                  
+               <div class="picture"> 
+                <img src="/images/istockphoto.jpg" alt="">
+                con
+                <img src="/images/Online-meeting.jpg" alt="">
+                <img src="/images/Photos.png" alt="">
+               </div>
+                <div class="joinroom unselectable" id="joinroom">Join</div>
+            </div>
+                   
+            </div>
+            <br>
+            
+     <!--Code Oclock Start-->
+     <div class="datetime">
+        <div class="time"></div>
+        <div class="date"></div>
+      </div>
+        
+  
+    <script type="text/javascript">
+        const timeElement = document.querySelector(".time");
+const dateElement = document.querySelector(".date");
+
+/**
+ * @param {Date} date
+ */
+function formatTime(date) {
+  const hours12 = date.getHours() % 12 || 12;
+  const minutes = date.getMinutes();
+  const isAm = date.getHours() < 12;
+
+  return `${hours12.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")} ${isAm ? "AM" : "PM"}`;
+}
+
+/**
+ * @param {Date} date
+ */
+function formatDate(date) {
+  const DAYS = [
+    "Sun",
+    "Mon",
+    "Tues",
+    "Wedn",
+    "Thur",
+    "Fri",
+    "Sat"
+  ];
+  const MONTHS = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+
+  return `${DAYS[date.getDay()]}, ${
+    MONTHS[date.getMonth()]
+  } ${date.getDate()}`;
+}
+
+setInterval(() => {
+  const now = new Date();
+
+  timeElement.textContent = formatTime(now);
+  dateElement.textContent = formatDate(now);
+}, 200);
+
+        </script>
+    <!--Code o'clock End-->
+
+   
+    
+    
+
+<script type="text/javascript">
+var counter = 1;
+setInterval(function(){
+  document.getElementById('radio' + counter).checked = true;
+  counter++;
+  if(counter > 4){
+    counter = 1;
+  }
+}, 5000);
+</script>
+
+   
+
+    <script src="js/landing.js">
+    </script>
+</body>
+
+</html>
