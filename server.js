@@ -3,6 +3,9 @@ const express = require('express')
 const http = require('http')
 const moment = require('moment');
 const socketio = require('socket.io');
+require('./mongo connect/index')
+const Users = require('./model/users')
+const Message = require('./model/messege')
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -23,6 +26,10 @@ let roomBoard = {};
 io.on('connect', socket => {
 
     socket.on("join room", (roomid, username) => {
+        console.log('user name', username)
+        console.log('room id', roomid)
+       
+
 
         socket.join(roomid);
         socketroom[socket.id] = roomid;
@@ -30,12 +37,18 @@ io.on('connect', socket => {
         micSocket[socket.id] = 'on';
         videoSocket[socket.id] = 'on';
 
+    
+
+
+       
+
         if (rooms[roomid] && rooms[roomid].length > 0) {
             rooms[roomid].push(socket.id);
             socket.to(roomid).emit('message', `${username} joined the room.`, 'user', moment().format(
                 "h:mm a"
-            ));
+            ), socketname);
             io.to(socket.id).emit('join room', rooms[roomid].filter(pid => pid != socket.id), socketname, micSocket, videoSocket);
+           
         }
         else {
             rooms[roomid] = [socket.id];

@@ -66,6 +66,10 @@ margin-right: 100px;
 
 }
 
+.hide {
+  display:none
+}
+
 .date {
   margin-top: 10px;
   font-size: 1em;

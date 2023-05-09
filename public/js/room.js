@@ -14,6 +14,11 @@ const audioButt = document.querySelector('.audio');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
 const whiteboardButt = document.querySelector('.board-icon')
+const attendies = document.querySelector('.attendies')
+const chats = document.querySelector('.chats')
+const messages = document.querySelector('.messages')
+const participants = document.querySelector('.participants')
+const chat_cont = document.querySelector('.chat-cont-participant')
 
 //whiteboard js start
 const whiteboardCont = document.querySelector('.whiteboard-cont');
@@ -205,6 +210,7 @@ continueButt.addEventListener('click', () => {
     overlayContainer.style.visibility = 'hidden';
     document.querySelector("#myname").innerHTML = `${username} (You)`;
     socket.emit("join room", roomid, username);
+    console.log('tttt', roomid, username)
 
 })
 
@@ -477,7 +483,17 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
         videoInfo = videoinfo;
 
 
-    console.log(cName);
+    console.log('client',cName);
+    console.log('conc',conc);
+
+    for (var particpant of Object.values(cName)) {
+        chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant+'</h3></div>'
+       
+       
+    }
+
+
+
     if (conc) {
         await conc.forEach(sid => {
             connections[sid] = new RTCPeerConnection(configuration);
@@ -584,7 +600,8 @@ socket.on('remove peer', sid => {
 sendButton.addEventListener('click', () => {
     const msg = messageField.value;
     messageField.value = '';
-    socket.emit('message', msg, username, roomid);
+    let clients;
+    socket.emit('message', msg, username, roomid, clients);
 })
 
 messageField.addEventListener("keyup", function (event) {
@@ -594,7 +611,17 @@ messageField.addEventListener("keyup", function (event) {
     }
 });
 
-socket.on('message', (msg, sendername, time) => {
+socket.on('message', (msg, sendername, time, clients) => {
+
+    console.log('clients',clients)
+    if(clients !== undefined){
+
+        for (var particpant of Object.values(clients)) {
+            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant+'</h3></div>'
+           
+           
+        }
+    }
     chatRoom.scrollTop = chatRoom.scrollHeight;
     chatRoom.innerHTML += `<div class="message">
     <div class="info">
@@ -727,4 +754,15 @@ whiteboardButt.addEventListener('click', () => {
 
 cutCall.addEventListener('click', () => {
     location.href = '/';
+})
+
+attendies.addEventListener('click', ()=>{
+    messages.style.display = "none";
+    participants.style.display = "block";
+    
+})
+chats.addEventListener('click', ()=>{
+    messages.style.display = "block";
+    participants.style.display = "none";
+    
 })
