@@ -471,7 +471,8 @@ socket.on('new icecandidate', handleNewIceCandidate);
 socket.on('video-answer', handleVideoAnswer);
 
 
-socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
+socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
+    
     socket.emit('getCanvas');
     if (cnames)
         cName = cnames;
@@ -483,13 +484,29 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
         videoInfo = videoinfo;
 
 
-    console.log('client',cName);
-    console.log('conc',conc);
+        username = nameField.value;
+        localStorage.setItem('username', username)
+        let userLocal = localStorage.getItem('username')
 
-    for (var particpant of Object.values(cName)) {
-        chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant+'</h3></div>'
-       
-       
+    console.log('client',cName);
+    console.log('conc',username);
+    if(Object.keys(cName).length === 0){
+        chat_cont.innerHTML = ''
+        chat_cont.innerHTML = '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+username+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+username + '(You)'+'</h3></div>'
+    }else{
+        
+        chat_cont.innerHTML = ''
+        for (var particpant of Object.values(cName)) {
+            if(particpant === userLocal){
+                particpant = particpant + '(You)'
+               
+            }else{
+                particpant = particpant
+            }
+            chat_cont.innerHTML = '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant +'</h3></div>'
+           
+           
+        }
     }
 
 
@@ -611,13 +628,13 @@ messageField.addEventListener("keyup", function (event) {
     }
 });
 
-socket.on('message', (msg, sendername, time, clients) => {
+socket.on('message', (msg, sendername, time, clients, username) => {
 
     console.log('clients',clients)
     if(clients !== undefined){
 
         for (var particpant of Object.values(clients)) {
-            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant+'</h3></div>'
+            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+ particpant+'</h3></div>'
            
            
         }
@@ -753,6 +770,7 @@ whiteboardButt.addEventListener('click', () => {
 })
 
 cutCall.addEventListener('click', () => {
+    socket.emit('cut-call', localStorage.getItem('username'))
     location.href = '/';
 })
 

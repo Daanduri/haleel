@@ -30,6 +30,7 @@ io.on('connect', socket => {
         console.log('room id', roomid)
        
 
+       
 
         socket.join(roomid);
         socketroom[socket.id] = roomid;
@@ -39,15 +40,23 @@ io.on('connect', socket => {
 
     
 
+ let current_participants = Object.values(socketname)
+        console.log('socketname',socketname)
 
+        if(current_participants.includes(username)){
+            let count =1
+            socket.emit('user-exist', count)
+            // return;
+        }
+        
        
 
         if (rooms[roomid] && rooms[roomid].length > 0) {
             rooms[roomid].push(socket.id);
             socket.to(roomid).emit('message', `${username} joined the room.`, 'user', moment().format(
                 "h:mm a"
-            ), socketname);
-            io.to(socket.id).emit('join room', rooms[roomid].filter(pid => pid != socket.id), socketname, micSocket, videoSocket);
+            ), socketname, username);
+            io.to(socket.id).emit('join room', rooms[roomid].filter(pid => pid != socket.id), socketname, micSocket, videoSocket, username);
            
         }
         else {
@@ -105,6 +114,14 @@ io.on('connect', socket => {
 
     socket.on('store canvas', url => {
         roomBoard[socketroom[socket.id]] = url;
+    })
+
+    socket.on('cut-call',(user)=>{
+        console.log('call disconnected',user)
+        console.log('socket', socketname)
+        let current_participants = Object.values(socketname)
+        console.log('current',current_participants )
+        // socketname = {}
     })
 
     socket.on('disconnect', () => {

@@ -1,9 +1,12 @@
+const socket = io();
+
 const createButton = document.querySelector("#createroom");
 const videoCont = document.querySelector('.video-self');
 const codeCont = document.querySelector('#roomcode');
 const joinBut = document.querySelector('#joinroom');
 const mic = document.querySelector('#mic');
 const cam = document.querySelector('#webcam');
+const exist = document.querySelector('.exist');
 
 let micAllowed = 1;
 let camAllowed = 1;
@@ -52,6 +55,14 @@ joinBut.addEventListener('click', (e) => {
         
     }
     const code = codeCont.value;
+    // console.log()
+    socket.on('user-exist',(count)=>{
+        if(count === 1){
+            exist.style.display = "block";
+
+            return
+        }
+    })
     location.href = `/room.html?room=${code}`;
    
 })
