@@ -40,7 +40,7 @@ io.on('connect', socket => {
 
     
 
- let current_participants = Object.values(socketname)
+        let current_participants = Object.values(socketname)
         console.log('socketname',socketname)
 
         if(current_participants.includes(username)){
@@ -61,7 +61,7 @@ io.on('connect', socket => {
         }
         else {
             rooms[roomid] = [socket.id];
-            io.to(socket.id).emit('join room', null, null, null, null);
+            io.to(socket.id).emit('join room', null, null, null, null,null);
         }
 
         io.to(roomid).emit('user count', rooms[roomid].length);

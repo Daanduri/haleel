@@ -488,22 +488,25 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
         localStorage.setItem('username', username)
         let userLocal = localStorage.getItem('username')
 
-    console.log('client',cName);
+    console.log('client after login',cName);
     console.log('conc',username);
     if(Object.keys(cName).length === 0){
-        chat_cont.innerHTML = ''
-        chat_cont.innerHTML = '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+username+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+username + '(You)'+'</h3></div>'
+        console.log('trueeee')
+        chat_cont.innerHTML = ""
+        chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+username+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+username + '(You)'+'</h3></div>'
     }else{
-        
-        chat_cont.innerHTML = ''
+        chat_cont.innerHTML = ""
         for (var particpant of Object.values(cName)) {
+            console.log('falseee')
             if(particpant === userLocal){
+              
                 particpant = particpant + '(You)'
                
             }else{
                 particpant = particpant
             }
-            chat_cont.innerHTML = '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant +'</h3></div>'
+            console.log('innerHTML', chat_cont.innerHTML)
+            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant +'</h3></div>'
            
            
         }
@@ -631,13 +634,29 @@ messageField.addEventListener("keyup", function (event) {
 socket.on('message', (msg, sendername, time, clients, username) => {
 
     console.log('clients',clients)
-    if(clients !== undefined){
+    // if(clients !== undefined){
 
-        for (var particpant of Object.values(clients)) {
-            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+ particpant+'</h3></div>'
+    //     for (var particpant of Object.values(clients)) {
+    //         chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+ particpant+'</h3></div>'
            
            
+    //     }
+    // }
+    let userLocal = localStorage.getItem('username')
+    chat_cont.innerHTML = ""
+    for (var particpant of Object.values(clients)) {
+        console.log('falseee')
+        if(particpant === userLocal){
+          
+            particpant = particpant + '(You)'
+           
+        }else{
+            particpant = particpant
         }
+        console.log('innerHTML', chat_cont.innerHTML)
+        chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant +'</h3></div>'
+       
+       
     }
     chatRoom.scrollTop = chatRoom.scrollHeight;
     chatRoom.innerHTML += `<div class="message">
