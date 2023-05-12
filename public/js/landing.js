@@ -124,3 +124,13 @@ mic.addEventListener('click', () => {
         micAllowed = 1;
     }
 })
+
+
+/* Image slider js */
+
+
+console.log('imagesssss')
+   
+  
+
+

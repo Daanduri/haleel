@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
@@ -26,7 +26,9 @@
     
 
         <div class="main">
-            <div class="create-join" >
+          <div class="row">
+            <div class="col-md-6">
+              <div class="create-join" >
                 <div class="text"><div class="head">Create Video Meetings in one-click for free everyone <span class="sig"> No sign ups required </span>.</div>
               <!-- <div class="subtext">No sign ups required.</div> -->
                <div class="sub">We re-engineered the service that we built for secure E-learning Meeting, Haleel meet, to make it free and available for all .</div> 
@@ -45,23 +47,55 @@
                 </div>
                     
                   
-               <div class="picture"> 
-                <img src="/images/istockphoto.jpg" alt="">
-                con
-                <img src="/images/Online-meeting.jpg" alt="">
-                <img src="/images/Photos.png" alt="">
-               </div>
+              
                 <div class="joinroom unselectable" id="joinroom">Join</div>
             </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+            
+              <div class="picture"> 
+                <!-- <img src="/images/istockphoto.jpg" alt="">
+                
+                <img src="/images/Online-meeting.jpg" alt="">
+                <img src="/images/Photos.png" alt=""> -->
+
+
+                <!-- Image sliders -->
+
+
+                <div class='circle'>
+                  <div class='circle__inner'>
+                    <div class='slice slice--0'></div>
+                    <div class='slice slice--1'></div>
+                    <div class='slice slice--2'></div>
+                    <div class='slice slice--3'></div>
+                    <div class='slice slice--4'></div>
+                    <div class='slice slice--5'></div>
+                    <div class='slice slice--6'></div>
+                    <div class='slice slice--7'></div>
+                    <div class='slice slice--8'></div>
+                    <div class='slice slice--9'></div>
+                    <div class='slice slice--10'></div>
+                    <div class='slice slice--11'></div>
+                  </div>
+                </div>
+                <div class="datetime">
+                  <div class="time"></div>
+                  <div class="date"></div>
+                </div>
+                
+                
+               </div>
+            </div>
+          </div>
+           
                    
             </div>
             <br>
             
      <!--Code Oclock Start-->
-     <div class="datetime">
-        <div class="time"></div>
-        <div class="date"></div>
-      </div>
+     
         
   
     <script type="text/javascript">
@@ -129,6 +163,55 @@ setInterval(() => {
     
 
 <script type="text/javascript">
+
+
+
+/* Image slider */
+
+var images = ['https://s3-us-west-2.amazonaws.com/s.cdpn.io/21151/stockholmsquare.png','https://s3-us-west-2.amazonaws.com/s.cdpn.io/21151/bridge.png', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/21151/cartssquare.png']
+    
+    var el = {
+      circle: document.querySelectorAll('.circle')[0],
+      circleInner: document.querySelectorAll('.circle__inner')[0],
+      lastChild: document.querySelectorAll('.slice:last-child')[0]
+    }
+    
+    function goToImg() {
+      el.lastChild.addEventListener('transitionend', function transitionEnd() {
+        el.lastChild.removeEventListener('transitionend', transitionEnd);
+        el.circle.style.backgroundImage = el.circleInner.style.backgroundImage;
+        el.circleInner.style.backgroundImage = 'none';
+        el.circle.classList.remove('transition');
+        
+        setTimeout(function(){
+          images.push(images.shift()); 
+          goToImg(); 
+        }, 4000);
+      }, false);
+      
+      var newImage = new Image(); 
+      newImage.onload = function() {
+        el.circleInner.style.backgroundImage = 'url(' + images[0] + ')';
+        el.circle.classList.add('transition');
+      };
+      newImage.src = images[0];
+    }
+    
+    window.slider = {
+          init: goToImg
+      }
+  
+  
+  window.onload = function(){
+    slider.init();
+  }
+
+
+
+
+
+
+
 var counter = 1;
 setInterval(function(){
   document.getElementById('radio' + counter).checked = true;
@@ -139,7 +222,9 @@ setInterval(function(){
 }, 5000);
 </script>
 
-   
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
     <script src="js/landing.js">
     </script>

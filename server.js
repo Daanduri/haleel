@@ -9,12 +9,14 @@ const Message = require('./model/messege')
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+// app.use(express.static(path.join(__dirname,'./public/')))
 const server = http.createServer(app);
 
 const io = socketio(server);
 
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 let rooms = {};
 let socketroom = {};
@@ -97,6 +99,13 @@ io.on('connect', socket => {
         io.to(roomid).emit('message', msg, username, moment().format(
             "h:mm a"
         ));
+    })
+
+    socket.on('cut-call', (username)=>{
+        console.log('left',username)
+    let rest = Object.values(socketname).filter(client=> { return client != username})
+    console.log('rest', rest)
+        socketname = {};
     })
 
     socket.on('getCanvas', () => {

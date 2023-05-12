@@ -491,13 +491,13 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
     console.log('client after login',cName);
     console.log('conc',username);
     if(Object.keys(cName).length === 0){
-        console.log('trueeee')
+        console.log('trueeee joining')
         chat_cont.innerHTML = ""
         chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+username+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+username + '(You)'+'</h3></div>'
     }else{
         chat_cont.innerHTML = ""
         for (var particpant of Object.values(cName)) {
-            console.log('falseee')
+            console.log('falseee joining')
             if(particpant === userLocal){
               
                 particpant = particpant + '(You)'
@@ -645,7 +645,7 @@ socket.on('message', (msg, sendername, time, clients, username) => {
     let userLocal = localStorage.getItem('username')
     chat_cont.innerHTML = ""
     for (var particpant of Object.values(clients)) {
-        console.log('falseee')
+        console.log('falseee message')
         if(particpant === userLocal){
           
             particpant = particpant + '(You)'
