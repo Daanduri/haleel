@@ -23,6 +23,7 @@ const chat_cont = document.querySelector('.chat-cont-participant')
 //whiteboard js start
 const whiteboardCont = document.querySelector('.whiteboard-cont');
 const canvas = document.querySelector("#whiteboard");
+const no_participants = document.querySelector("#no_participants");
 const ctx = canvas.getContext('2d');
 
 let boardVisisble = false;
@@ -487,7 +488,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
         username = nameField.value;
         localStorage.setItem('username', username)
         let userLocal = localStorage.getItem('username')
-
+        no_participants.innerHTML = Object.keys(cName).length ? Object.keys(cName).length : 0
     console.log('client after login',cName);
     console.log('conc',username);
     if(Object.keys(cName).length === 0){
@@ -643,6 +644,7 @@ socket.on('message', (msg, sendername, time, clients, username) => {
     //     }
     // }
     let userLocal = localStorage.getItem('username')
+    no_participants.innerHTML = Object.keys(clients).length ? Object.keys(clients).length : 0
     chat_cont.innerHTML = ""
     for (var particpant of Object.values(clients)) {
         console.log('falseee message')
@@ -762,7 +764,7 @@ socket.on('disconnectUser', (clients)=>{
         localStorage.setItem('username', username)
         let userLocal = localStorage.getItem('username')
 
-   
+        no_participants.innerHTML = Object.keys(clients).length ? Object.keys(clients).length : 0
         console.log('cut')
     if(Object.keys(clients).length === 0){
         chat_cont.innerHTML = ""
