@@ -754,6 +754,39 @@ audioButt.addEventListener('click', () => {
     }
 })
 
+socket.on('disconnectUser', (clients)=>{
+
+    console.log('cut', clients)
+
+    username = nameField.value;
+        localStorage.setItem('username', username)
+        let userLocal = localStorage.getItem('username')
+
+   
+        console.log('cut')
+    if(Object.keys(clients).length === 0){
+        chat_cont.innerHTML = ""
+        chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+username+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+username + '(You)'+'</h3></div>'
+    }else{
+        chat_cont.innerHTML = ""
+        for (var particpant of Object.values(clients)) {
+           
+            if(particpant === userLocal){
+              
+                particpant = particpant + '(You)'
+               
+            }else{
+                particpant = particpant
+            }
+            
+            chat_cont.innerHTML += '<div style="display: flex;"><img style="margin-top:2%" src="https://ui-avatars.com/api/'+particpant+'" alt=""> <h3 style="margin-left:2%; margin-top:3%" >'+particpant +'</h3></div>'
+           
+           
+        }
+    }
+
+})
+
 socket.on('action', (msg, sid) => {
     if (msg == 'mute') {
         console.log(sid + ' muted themself');
@@ -789,7 +822,7 @@ whiteboardButt.addEventListener('click', () => {
 })
 
 cutCall.addEventListener('click', () => {
-    socket.emit('cut-call', localStorage.getItem('username'))
+    socket.emit('cut-call', localStorage.getItem('username'), roomid)
     location.href = '/';
 })
 

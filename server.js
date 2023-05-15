@@ -6,7 +6,7 @@ const socketio = require('socket.io');
 require('./mongo connect/index')
 const Users = require('./model/users')
 const Message = require('./model/messege')
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
@@ -25,15 +25,16 @@ let micSocket = {};
 let videoSocket = {};
 let roomBoard = {};
 
+
+
 io.on('connect', socket => {
 
     socket.on("join room", (roomid, username) => {
-        console.log('user name', username)
-        console.log('room id', roomid)
+        // console.log('user name', username)
+        // console.log('room id', roomid)
        
 
        
-
         socket.join(roomid);
         socketroom[socket.id] = roomid;
         socketname[socket.id] = username;
@@ -43,7 +44,7 @@ io.on('connect', socket => {
     
 
         let current_participants = Object.values(socketname)
-        console.log('socketname',socketname)
+        // console.log('socketname',socketname)
 
         if(current_participants.includes(username)){
             let count =1
@@ -101,11 +102,15 @@ io.on('connect', socket => {
         ));
     })
 
-    socket.on('cut-call', (username)=>{
-        console.log('left',username)
-    let rest = Object.values(socketname).filter(client=> { return client != username})
-    console.log('rest', rest)
-        socketname = {};
+    socket.on('cut-call', (username,roomid)=>{
+      /* socketname.filter(client=> { console.log('client', client) }) */
+      for (var key in socketname) {
+        if (socketname[key] == username) delete socketname[key];
+    }
+
+    console.log('socket', socketname)
+    io.to(roomid).emit('disconnectUser',socketname)
+        // socketname = {};
     })
 
     socket.on('getCanvas', () => {
@@ -125,26 +130,27 @@ io.on('connect', socket => {
         roomBoard[socketroom[socket.id]] = url;
     })
 
-    socket.on('cut-call',(user)=>{
-        console.log('call disconnected',user)
-        console.log('socket', socketname)
-        let current_participants = Object.values(socketname)
-        console.log('current',current_participants )
-        // socketname = {}
-    })
+   
 
     socket.on('disconnect', () => {
         if (!socketroom[socket.id]) return;
-        socket.to(socketroom[socket.id]).emit('message', `${socketname[socket.id]} left the chat.`, 'user', moment().format(
-            "h:mm a"
-        ));
+        console.log('socketroom[socket.id]',socketroom[socket.id])
+        // socket.to(socketroom[socket.id]).emit('message', `${socketname[socket.id]} left the chat.`, 'user', moment().format(
+        //     "h:mm a"
+        // ));
+
+       
+          
+          
         socket.to(socketroom[socket.id]).emit('remove peer', socket.id);
         var index = rooms[socketroom[socket.id]].indexOf(socket.id);
         rooms[socketroom[socket.id]].splice(index, 1);
         io.to(socketroom[socket.id]).emit('user count', rooms[socketroom[socket.id]].length);
         delete socketroom[socket.id];
-        console.log('--------------------');
-        console.log(rooms[socketroom[socket.id]]);
+        console.log('--------------------', socketname);
+
+        // socket.emit('disconnectUser',socketname)
+        console.log('room',rooms[socketroom[socket.id]]);
 
         //toDo: push socket.id out of rooms
     });
