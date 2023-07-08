@@ -731,13 +731,13 @@ riseHandButton.addEventListener('click', () => {
 })
 
 socket.on("Hand",(data)=>{
-    console.log('riseddddd',localStorage.getItem('username'))
-    riseHand(localStorage.getItem('username'));
+    console.log('riseddddd',data)
+    riseHand(data);
 });
 
 
 audioButt.addEventListener('click', () => {
-    if(rise === true) { riseHand(localStorage.getItem('username')); }
+   if(rise === true) { riseHand(); }
     if (audioAllowed) {
         for (let key in audioTrackSent) {
             audioTrackSent[key].enabled = false;
@@ -777,7 +777,7 @@ audioButt.addEventListener('click', () => {
 })
 
 socket.on('disconnectUser', (clients)=>{
-    if(rise === true) { riseHand(localStorage.getItem('username')); }
+   if(rise === true) { riseHand(); }
     console.log('cut', clients)
 
     username = nameField.value;
@@ -866,6 +866,11 @@ function riseHand(name) {
     console.log(name)
     var x = document.getElementById("snackbar");
     x.className = "show";
-    x.textContent = `${name} raised hand!`
+    if(name === localStorage.getItem('username')){
+        x.textContent = `You raised hand ✋!`
+    }else{
+        x.textContent = `${name} raised hand ✋!`
+    }
+   
     setTimeout(function(){ x.className = x.className.replace("show", ""); x.textContent = `${name} raised hand!` }, 3000);
   }
