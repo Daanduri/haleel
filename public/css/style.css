@@ -698,6 +698,25 @@ vertical-align: middle;
   cursor: pointer;
   background-color: #7a7c7b;
 }
+.container-room .left-cont .footer .utils .norise {
+  background-color:  #888a8d; 
+  width: 50px;
+  height: 50px;
+  background: rgb(95,99,104);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+  transition: background 0.2s;
+  margin-right: 15px;
+}
+.container-room .left-cont .footer .utils .norise:hover {
+  cursor: pointer;
+  background-color: #7a7c7b;
+}
 .container-room .left-cont .footer .utils .screenshare {
   background-color:  #888a8d; 
   width: 50px;

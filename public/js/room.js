@@ -10,6 +10,7 @@ const overlayContainer = document.querySelector('#overlay')
 const continueButt = document.querySelector('.continue-name');
 const nameField = document.querySelector('#name-field');
 const videoButt = document.querySelector('.novideo');
+const riseHandButton = document.querySelector('.norise');
 const audioButt = document.querySelector('.audio');
 const cutCall = document.querySelector('.cutcall');
 const screenShareButt = document.querySelector('.screenshare');
@@ -713,6 +714,10 @@ videoButt.addEventListener('click', () => {
 
         socket.emit('action', 'videoon');
     }
+})
+
+riseHandButton.addEventListener('click', () => {
+    alert('clickedddd')
 })
 
 
