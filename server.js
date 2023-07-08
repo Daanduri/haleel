@@ -129,6 +129,10 @@ io.on('connect', socket => {
     socket.on('store canvas', url => {
         roomBoard[socketroom[socket.id]] = url;
     })
+    socket.on('riseHand', (username,roomid) => {
+        // roomBoard[socketroom[socket.id]] = url;
+        io.to(roomid).emit('Hand',socketname)
+    })
 
    
 

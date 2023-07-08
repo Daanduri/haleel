@@ -281,7 +281,8 @@ function startCall() {
 }
 
 function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
-
+    if(rise === true) { riseHand(); }
+    
     cName[sid] = cname;
     console.log('video offered recevied');
     micInfo[sid] = micinf;
@@ -400,6 +401,7 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
 }
 
 function handleNewIceCandidate(candidate, sid) {
+    if(rise === true) { riseHand(); }
     console.log('new candidate recieved')
     var newcandidate = new RTCIceCandidate(candidate);
 
@@ -408,6 +410,7 @@ function handleNewIceCandidate(candidate, sid) {
 }
 
 function handleVideoAnswer(answer, sid) {
+    if(rise === true) { riseHand(); }
     console.log('answered the offer')
     const ans = new RTCSessionDescription(answer);
     connections[sid].setRemoteDescription(ans);
@@ -474,7 +477,7 @@ socket.on('video-answer', handleVideoAnswer);
 
 
 socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
-    
+    if(rise === true) { riseHand(); }
     socket.emit('getCanvas');
     if (cnames)
         cName = cnames;
@@ -490,8 +493,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
         localStorage.setItem('username', username)
         let userLocal = localStorage.getItem('username')
         no_participants.innerHTML = Object.keys(cName).length ? Object.keys(cName).length : 0
-    console.log('client after login',cName);
-    console.log('conc',username);
+  
     if(Object.keys(cName).length === 0){
         console.log('trueeee joining')
         chat_cont.innerHTML = ""
@@ -612,6 +614,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo, username) => {
 })
 
 socket.on('remove peer', sid => {
+    if(rise === true) { riseHand(); }
     if (document.getElementById(sid)) {
         document.getElementById(sid).remove();
     }
@@ -620,6 +623,7 @@ socket.on('remove peer', sid => {
 })
 
 sendButton.addEventListener('click', () => {
+    if(rise === true) { riseHand(); }
     const msg = messageField.value;
     messageField.value = '';
     let clients;
@@ -627,6 +631,7 @@ sendButton.addEventListener('click', () => {
 })
 
 messageField.addEventListener("keyup", function (event) {
+    if(rise === true) { riseHand(); }
     if (event.keyCode === 13) {
         event.preventDefault();
         sendButton.click();
@@ -634,7 +639,7 @@ messageField.addEventListener("keyup", function (event) {
 });
 
 socket.on('message', (msg, sendername, time, clients, username) => {
-
+    if(rise === true) { riseHand(); }
     console.log('clients',clients)
     // if(clients !== undefined){
 
@@ -674,7 +679,7 @@ socket.on('message', (msg, sendername, time, clients, username) => {
 });
 
 videoButt.addEventListener('click', () => {
-
+    if(rise === true) { riseHand(); }
     if (videoAllowed) {
         for (let key in videoTrackSent) {
             videoTrackSent[key].enabled = false;
@@ -716,13 +721,23 @@ videoButt.addEventListener('click', () => {
     }
 })
 
+let rise = false;
+
 riseHandButton.addEventListener('click', () => {
-    alert('clickedddd')
+    // alert('clickedddd')
+    // rise=true;
+    
+    socket.emit("riseHand",localStorage.getItem('username'), roomid);
 })
+
+socket.on("Hand",(data)=>{
+    console.log('riseddddd',localStorage.getItem('username'))
+    riseHand(localStorage.getItem('username'));
+});
 
 
 audioButt.addEventListener('click', () => {
-
+    if(rise === true) { riseHand(localStorage.getItem('username')); }
     if (audioAllowed) {
         for (let key in audioTrackSent) {
             audioTrackSent[key].enabled = false;
@@ -762,7 +777,7 @@ audioButt.addEventListener('click', () => {
 })
 
 socket.on('disconnectUser', (clients)=>{
-
+    if(rise === true) { riseHand(localStorage.getItem('username')); }
     console.log('cut', clients)
 
     username = nameField.value;
@@ -843,3 +858,14 @@ chats.addEventListener('click', ()=>{
     participants.style.display = "none";
     
 })
+
+
+/* Show rise hand */
+
+function riseHand(name) {
+    console.log(name)
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    x.textContent = `${name} raised hand!`
+    setTimeout(function(){ x.className = x.className.replace("show", ""); x.textContent = `${name} raised hand!` }, 3000);
+  }
